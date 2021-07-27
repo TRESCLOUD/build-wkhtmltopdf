@@ -14,28 +14,34 @@ RUN apt-get update && apt-get install -y wget \
     fontconfig 
 
 WORKDIR /root
-# Descargamos el codigo de la version 0.12.1
-RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/archive/refs/tags/0.12.1.tar.gz && \
-    tar -xvf 0.12.1.tar.gz && \
-    mv wkhtmltopdf-0.12.1 wkhtmltopdf
+# # Descargamos el codigo de la version 0.12.1
+# RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/archive/refs/tags/0.12.1.tar.gz && \
+#     tar -xvf 0.12.1.tar.gz && \
+#     mv wkhtmltopdf-0.12.1 wkhtmltopdf
 
-# Descargamos el QT para esta version
-RUN mkdir qt-wkhtmltopdf && cd qt-wkhtmltopdf && \
-    git clone https://www.github.com/wkhtmltopdf/qt --depth 1 --branch wk_4.8.7 --single-branch .
+# # Descargamos el QT para esta version
+# RUN mkdir qt-wkhtmltopdf && cd qt-wkhtmltopdf && \
+#     git clone https://www.github.com/wkhtmltopdf/qt --depth 1 --branch wk_4.8.7 --single-branch .
 
-# Archivos de configuracion faltantes en el codigo
-COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
-COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
+# # Archivos de configuracion faltantes en el codigo
+# COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
+# COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
 
-# Construimos QT segun lo requiere wkhtmltopdf
-WORKDIR /root/qt-wkhtmltopdf
-RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
-#RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
-RUN make -j8
-RUN make install
+# # Construimos QT segun lo requiere wkhtmltopdf
+# WORKDIR /root/qt-wkhtmltopdf
+# RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
+# #RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
+# RUN make -j8
+# RUN make install
 
-# Compilamos wkhtmltopdf con el QT
+# # Compilamos wkhtmltopdf con el QT
+# WORKDIR /root/wkhtmltopdf
+# RUN ../qt-wkhtmltopdf/bin/qmake
+# RUN make -j8
+# RUN make install
+
+RUN git clone --recursive https://github.com/wkhtmltopdf/wkhtmltopdf.git
 WORKDIR /root/wkhtmltopdf
-RUN ../qt-wkhtmltopdf/bin/qmake
-RUN make -j8
-RUN make install
+RUN git checkout 2b560d5e4302b5524e47aa61d10c10f63af0801c
+
+RUN https://github.com/wkhtmltopdf/wkhtmltopdf/tree/2b560d5e4302b5524e47aa61d10c10f63af0801c
