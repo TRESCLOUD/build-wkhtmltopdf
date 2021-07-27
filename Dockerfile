@@ -40,14 +40,22 @@ WORKDIR /root
 # RUN make -j8
 # RUN make install
 
+#############################################################
+# Otra forma de compilar
+
 # Descargamos wkhtmltopdf y QT incluido
 RUN git clone --recursive https://github.com/wkhtmltopdf/wkhtmltopdf.git
 WORKDIR /root/wkhtmltopdf
 RUN git checkout 2b560d5e4302b5524e47aa61d10c10f63af0801c
 
+# Archivos de configuracion faltantes en el codigo
+COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
+COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
+
 # Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/wkhtmltopdf/qt
-RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
+RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
+#RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
 RUN make -j8
 RUN make install
 
