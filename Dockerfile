@@ -29,7 +29,7 @@ RUN mkdir qt-wkhtmltopdf && cd qt-wkhtmltopdf && \
 
 # Construimos QT segun lo lo requiere wkhtmltopdf
 WORKDIR /root/qt-wkhtmltopdf
-RUN ./configure -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
+RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
 RUN make -j8
 RUN make install
 
