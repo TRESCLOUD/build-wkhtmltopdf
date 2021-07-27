@@ -27,7 +27,7 @@ COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
 RUN mkdir qt-wkhtmltopdf && cd qt-wkhtmltopdf && \
     git clone https://www.github.com/wkhtmltopdf/qt --depth 1 --branch wk_4.8.7 --single-branch .
 
-# Construimos QT segun lo lo requiere wkhtmltopdf
+# Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/qt-wkhtmltopdf
 RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
 RUN make -j8
