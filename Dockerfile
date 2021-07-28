@@ -60,8 +60,10 @@ RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations 
 RUN make -j8
 RUN make install
 
-# Headers para X11
-RUN apt-get install -y libx11 libx11-dev
+## Headers para X11 (No funciona)
+#RUN apt-get install -y libx11-dev
+RUN apt-get install -y xorg
+
 
 # Compilamos wkhtmltopdf con el QT
 WORKDIR /root/wkhtmltopdf
