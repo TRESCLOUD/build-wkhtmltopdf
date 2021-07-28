@@ -10,6 +10,6 @@
 
 docker build -t wkhtmltopdf-0.12.1:latest .
 docker run --name wkhtmltopdf-0.12.1 -d -t wkhtmltopdf-0.12.1:latest
-docker cp wkhtmltopdf-0.12.1:/root/wkhtmltopdf/wkhtmltopdf-0.12.1-trescloud.com-arm64* $HOME/
+docker cp wkhtmltopdf-0.12.1:/root/wkhtmltopdf/wkhtmltopdf-0.12.1-qt-trescloud.com-arm64* $HOME/
 docker stop wkhtmltopdf-0.12.1
 docker rm wkhtmltopdf-0.12.1
