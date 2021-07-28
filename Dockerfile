@@ -44,7 +44,8 @@ WORKDIR /root
 # Otra forma de compilar, usando el codigo completo de esa version
 # https://github.com/wkhtmltopdf/qt/tree/82b568bd2e1dfb76208128e682fe0ade392e48d4
 
-RUN apt-get install -y xorg
+# instalar XORG no ayuda a resolver los problemas
+#RUN apt-get install -y xorg
 
 # Descargamos wkhtmltopdf y QT incluido
 RUN git clone --recursive https://github.com/wkhtmltopdf/wkhtmltopdf.git
@@ -54,6 +55,8 @@ RUN git checkout 2b560d5e4302b5524e47aa61d10c10f63af0801c
 # Archivos de configuracion faltantes en el codigo
 COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
 COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
+
+RUN apt-get install -y libssl-dev
 
 # Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/wkhtmltopdf/qt
