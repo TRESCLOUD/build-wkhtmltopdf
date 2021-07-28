@@ -78,6 +78,6 @@ RUN make install
 # Creacion del paquete .deb
 RUN apt-get install -y checkinstall build-essential automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev
 RUN checkinstall --default \
-    --pkgname wkhtmltopdf_0.12.1_trescloud_20210728_arm64 \
+    --pkgname wkhtmltopdf-0.12.1-trescloud.com-arm64 \
     --maintainer "info@trescloud.com" \
-    --provides "provee wkhtmltopdf 0.12.1 (with patched qt) para Odoo V10 para arquitectura ARM64"
+    --provides "provee wkhtmltopdf 0.12.1 con parche de qt para Odoo V10 para arquitectura ARM64"
