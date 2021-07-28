@@ -53,8 +53,9 @@ WORKDIR /root/wkhtmltopdf
 RUN git checkout 2b560d5e4302b5524e47aa61d10c10f63af0801c
 
 # Archivos de configuracion faltantes en el codigo
-COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
-COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
+# No es necesario
+#COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
+#COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
 
 # Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/wkhtmltopdf/qt
@@ -68,9 +69,15 @@ RUN make install
 #RUN apt-get install -y libx11-dev
 #RUN apt-get install -y xorg
 
-
 # Compilamos wkhtmltopdf con el QT
 WORKDIR /root/wkhtmltopdf
 RUN ../wkhtmltopdf/qt/bin/qmake
 RUN make -j8
 RUN make install
+
+# Creacion del paquete .deb
+RUN apt-get install -y checkinstall build-essential automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev
+RUN checkinstall --default \
+    --pkgname wkhtmltopdf_0.12.1_trescloud_20210728_arm64 \
+    --maintainer "info@trescloud.com" \
+    --provides "provee wkhtmltopdf 0.12.1 (with patched qt) para Odoo V10 para arquitectura ARM64"
