@@ -54,8 +54,8 @@ RUN git checkout 2b560d5e4302b5524e47aa61d10c10f63af0801c
 
 # Archivos de configuracion faltantes en el codigo
 # No es necesario
-#COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
-#COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
+COPY files/static_qt_conf_base wkhtmltopdf/static_qt_conf_base
+COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
 
 # Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/wkhtmltopdf/qt
