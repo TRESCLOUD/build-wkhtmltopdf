@@ -44,6 +44,8 @@ WORKDIR /root
 # Otra forma de compilar, usando el codigo completo de esa version
 # https://github.com/wkhtmltopdf/qt/tree/82b568bd2e1dfb76208128e682fe0ade392e48d4
 
+RUN apt-get install -y xorg
+
 # Descargamos wkhtmltopdf y QT incluido
 RUN git clone --recursive https://github.com/wkhtmltopdf/wkhtmltopdf.git
 WORKDIR /root/wkhtmltopdf
@@ -55,14 +57,14 @@ COPY files/static_qt_conf_linux wkhtmltopdf/static_qt_conf_linux
 
 # Construimos QT segun lo requiere wkhtmltopdf
 WORKDIR /root/wkhtmltopdf/qt
-RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
-#RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
+#RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "`pwd`" `cat ../wkhtmltopdf/static_qt_conf_base ../wkhtmltopdf/static_qt_conf_linux | sed -re '/^#/ d' | tr '\n' ' '`
+RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
 RUN make -j8
 RUN make install
 
 ## Headers para X11 (No funciona)
 #RUN apt-get install -y libx11-dev
-RUN apt-get install -y xorg
+#RUN apt-get install -y xorg
 
 
 # Compilamos wkhtmltopdf con el QT
