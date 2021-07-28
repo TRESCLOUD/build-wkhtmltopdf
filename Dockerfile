@@ -41,7 +41,8 @@ WORKDIR /root
 # RUN make install
 
 #############################################################
-# Otra forma de compilar
+# Otra forma de compilar, usando el codigo completo de esa version
+# https://github.com/wkhtmltopdf/qt/tree/82b568bd2e1dfb76208128e682fe0ade392e48d4
 
 # Descargamos wkhtmltopdf y QT incluido
 RUN git clone --recursive https://github.com/wkhtmltopdf/wkhtmltopdf.git
@@ -58,6 +59,9 @@ RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations 
 #RUN ./configure -confirm-license -nomake tools,examples,demos,docs,translations -opensource -prefix "../wkqt"
 RUN make -j8
 RUN make install
+
+# Headers para X11
+RUN apt-get install -y libx11-dev
 
 # Compilamos wkhtmltopdf con el QT
 WORKDIR /root/wkhtmltopdf
