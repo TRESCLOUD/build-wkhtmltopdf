@@ -5,4 +5,4 @@ Para obtener el archivo ejecutar el script automatico que se encuentra en el rai
 
 bash get_wkhtmltopdf-0.12.1-deb.sh
 
-Requiere un servidor basado en arquietectura ARM64
+Requiere un servidor basado en arquitectura ARM64
